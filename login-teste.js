@@ -53,7 +53,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-async function criarEvento(driver, qIngres, idEvent) {
+async function criarEvento(driver, qIngres, nEvent) {
   const nameForme = "Sociedade Alternativa";
 
   // Quantidade total de ingresso
@@ -69,315 +69,318 @@ async function criarEvento(driver, qIngres, idEvent) {
 
   // Criãção de quantidade qIngres de ingressos
 
-  // ->> Criação de Evento
-  let createEvent = await driver.wait(
-    until.elementLocated(
-      By.xpath("/html/body/app-root/app-header/header/nav/ul/li[4]/a/button")
-    )
-  );
-  createEvent = await driver.wait(until.elementIsVisible(createEvent));
-  await createEvent.click();
-
-  //await driver.sleep(3000)
-
-  let nameEvent = await driver.wait(
-    until.elementLocated(
-      By.css(
-        'input[tabindex="1"][class="form-control form-control-lg text-input ng-untouched ng-pristine ng-valid"]'
-      )
-    )
-  );
-  nameEvent = await driver.wait(until.elementIsVisible(nameEvent));
-  await nameEvent.sendKeys(`${getRandomUserName()} em ${getRandomLocal()}`);
-
-  driver
-    .findElement(By.css('input[type="tel"]'))
-    .sendKeys("30071012300", Key.TAB, "3007251230");
-
-  driver.findElement(By.css(`option[value="4"]`)).click();
-
-  driver
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-create/div/div/div/go-form/form/div[1]/div[5]/go-input/div/div/input"
-      )
-    )
-    .sendKeys("Natã");
-  driver
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-create/div/div/div/go-form/form/div[1]/div[6]/go-input/div/div/input"
-      )
-    )
-    .sendKeys("natan.danilo@gmail.com");
-
-  await driver
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-create/div/div/div/go-form/form/div[3]/div/go-button/button"
-      )
-    )
-    .click();
-
-  let i = 0;
-  while (i < qIngres) {
-    // ->> Criação de Ingresso
-
-    let launchModal = await driver.wait(
-      until.elementLocated(By.linkText("Criar ingresso"))
-    );
-    launchModal = await driver.wait(until.elementIsVisible(launchModal));
-    await launchModal.click();
-
-    let ingressoPago = await driver.wait(
+  let event = 0;
+  while (event < nEvent) {
+    event = event + 1;
+    // ->> Criação de Evento
+    let createEvent = await driver.wait(
       until.elementLocated(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-type/div/div/div/go-selectable-group/div/div[1]"
+        By.xpath("/html/body/app-root/app-header/header/nav/ul/li[4]/a/button")
+      )
+    );
+    createEvent = await driver.wait(until.elementIsVisible(createEvent));
+    await createEvent.click();
+
+    //await driver.sleep(3000)
+
+    let nameEvent = await driver.wait(
+      until.elementLocated(
+        By.css(
+          'input[tabindex="1"][class="form-control form-control-lg text-input ng-untouched ng-pristine ng-valid"]'
         )
       )
     );
-    ingressoPago = await driver.wait(until.elementIsVisible(ingressoPago));
-    await ingressoPago.click();
+    nameEvent = await driver.wait(until.elementIsVisible(nameEvent));
+    await nameEvent.sendKeys(`${getRandomUserName()} em ${getRandomLocal()}`);
 
-    driver.sleep(1000);
+    driver
+      .findElement(By.css('input[type="tel"]'))
+      .sendKeys("30071012300", Key.TAB, "3007251230");
 
-    let configForm = await driver.wait(
-      until.elementLocated(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[4]/go-accordion/div/div[2]/a"
-        )
-      )
-    );
-    configForm = await driver.wait(until.elementIsVisible(configForm));
-    await configForm.click();
+    driver.findElement(By.css(`option[value="4"]`)).click();
 
-    driver.sleep(1000);
-
-    // Formularios a ser testados
-
-    configForm = await driver.wait(
-      until.elementLocated(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/label"
-        )
-      )
-    );
-    configForm = await driver.wait(until.elementIsVisible(configForm));
-    await configForm.click();
-
-    // Selecionar formularios
-
-    await configForm
+    driver
       .findElement(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[3]/label"
+          "/html/body/app-root/main/event-create/div/div/div/go-form/form/div[1]/div[5]/go-input/div/div/input"
         )
       )
-      .click();
-    await configForm
+      .sendKeys("Natã");
+    driver
       .findElement(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[4]/label"
+          "/html/body/app-root/main/event-create/div/div/div/go-form/form/div[1]/div[6]/go-input/div/div/input"
         )
       )
-      .click();
-    await configForm
+      .sendKeys("natan.danilo@gmail.com");
+
+    await driver
       .findElement(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[5]/label"
+          "/html/body/app-root/main/event-create/div/div/div/go-form/form/div[3]/div/go-button/button"
         )
       )
       .click();
 
-    configForm = await driver.wait(
+    let i = 0;
+    while (i < qIngres) {
+      // ->> Criação de Ingresso
+
+      let launchModal = await driver.wait(
+        until.elementLocated(By.linkText("Criar ingresso"))
+      );
+      launchModal = await driver.wait(until.elementIsVisible(launchModal));
+      await launchModal.click();
+
+      let ingressoPago = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-type/div/div/div/go-selectable-group/div/div[1]"
+          )
+        )
+      );
+      ingressoPago = await driver.wait(until.elementIsVisible(ingressoPago));
+      await ingressoPago.click();
+
+      driver.sleep(1000);
+
+      let configForm = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[4]/go-accordion/div/div[2]/a"
+          )
+        )
+      );
+      configForm = await driver.wait(until.elementIsVisible(configForm));
+      await configForm.click();
+
+      driver.sleep(1000);
+
+      // Formularios a ser testados
+
+      configForm = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/label"
+          )
+        )
+      );
+      configForm = await driver.wait(until.elementIsVisible(configForm));
+      await configForm.click();
+
+      // Selecionar formularios
+
+      await configForm
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[3]/label"
+          )
+        )
+        .click();
+      await configForm
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[4]/label"
+          )
+        )
+        .click();
+      await configForm
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[5]/label"
+          )
+        )
+        .click();
+
+      configForm = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/a"
+          )
+        )
+      );
+      configForm = await driver.wait(until.elementIsVisible(configForm));
+      await configForm.click();
+
+      driver.sleep(1000);
+
+      // Ingresso Multiplos formularios
+
+      configForm = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[1]/div/div/select/option[2]"
+          )
+        )
+      );
+      configForm = await driver.wait(until.elementIsVisible(configForm));
+      await configForm.click();
+
+      await configForm
+        .findElement(
+          By.xpath(
+            "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[2]/div/div/input"
+          )
+        )
+        .sendKeys(`Formulario Teste: ${nameForme}`);
+      await configForm
+        .findElement(
+          By.xpath(
+            "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[3]/div/div/input"
+          )
+        )
+        .sendKeys(`Multe Teste: ${nameForme}`);
+      await configForm
+        .findElement(
+          By.xpath(
+            "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[4]/div/div/input"
+          )
+        )
+        .sendKeys(`Multe Teste: ${nameForme}`);
+      await configForm
+        .findElement(By.xpath('//*[@id="go-modal-primary-button"]'))
+        .click();
+
+      // Finaliso configurção do ingresso
+      configForm = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/go-button/button"
+          )
+        )
+      );
+      configForm = await driver.wait(until.elementIsVisible(configForm));
+      await configForm.click();
+
+      // Definir informações
+      let nomeIngressoEndPrice = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/input"
+          )
+        )
+      );
+      nomeIngressoEndPrice = await driver.wait(
+        until.elementIsVisible(nomeIngressoEndPrice)
+      );
+      await nomeIngressoEndPrice.sendKeys("Pista", Key.TAB, "2790");
+
+      let allowSaleOn = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[3]/go-accordion/div/div[2]/div/div[1]/label"
+          )
+        )
+      );
+      allowSaleOn = await driver.wait(until.elementIsVisible(allowSaleOn));
+      await allowSaleOn.click();
+      await allowSaleOn
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[3]/go-accordion/div/div[2]/div/div[2]/label"
+          )
+        )
+        .click();
+
+      // await allowSaleOn.findElement(By.xpath(')).click()
+
+      let option = await driver.wait(
+        until.elementLocated(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[1]/h3"
+          )
+        )
+      );
+      option = await driver.wait(until.elementIsVisible(option));
+      await option.click();
+
+      await option
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[2]/div/div[1]/go-input/div/div/input"
+          )
+        )
+        .sendKeys(quantIngre);
+      await option
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[2]/div/div[2]/go-input/div/div/input"
+          )
+        )
+        .sendKeys(quantPer, Key.TAB, ingDataInit, Key.TAB, ingDataEnd);
+
+      await option
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[2]/div/div[5]/div/go-input/div/textarea"
+          )
+        )
+        .sendKeys(textComente);
+      await option
+        .findElement(
+          By.xpath(
+            "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[2]/div/go-button/button"
+          )
+        )
+        .click();
+      i++;
+    }
+
+    // Adicionar descrição
+    let desc = await driver.wait(
       until.elementLocated(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/a"
+          "/html/body/app-root/main/event-detail/div[1]/div[3]/div/div/div[2]/p/a"
         )
       )
     );
-    configForm = await driver.wait(until.elementIsVisible(configForm));
-    await configForm.click();
+    desc = await driver.wait(until.elementIsVisible(desc));
+    desc.click();
 
-    driver.sleep(1000);
-
-    // Ingresso Multiplos formularios
-
-    configForm = await driver.wait(
+    desc = await driver.wait(
       until.elementLocated(
         By.xpath(
-          "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[1]/div/div/select/option[2]"
+          "/html/body/app-root/main/event-detail/app-event-edit-description/div[1]/div/div[2]/div/go-input/div/textarea"
         )
       )
     );
-    configForm = await driver.wait(until.elementIsVisible(configForm));
-    await configForm.click();
-
-    await configForm
-      .findElement(
-        By.xpath(
-          "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[2]/div/div/input"
-        )
-      )
-      .sendKeys(`Formulario Teste: ${nameForme}`);
-    await configForm
-      .findElement(
-        By.xpath(
-          "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[3]/div/div/input"
-        )
-      )
-      .sendKeys(`Multe Teste: ${nameForme}`);
-    await configForm
-      .findElement(
-        By.xpath(
-          "/html/body/ngb-modal-window/div/div/div/div/div/div/go-form/form/go-input[4]/div/div/input"
-        )
-      )
-      .sendKeys(`Multe Teste: ${nameForme}`);
-    await configForm
-      .findElement(By.xpath('//*[@id="go-modal-primary-button"]'))
-      .click();
-
-    // Finaliso configurção do ingresso
-    configForm = await driver.wait(
+    desc = await driver.wait(until.elementIsVisible(desc)).sendKeys(describ);
+    desc = await driver.wait(
       until.elementLocated(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/go-button/button"
+          "/html/body/app-root/main/event-detail/app-event-edit-description/div[2]/div/div/div/go-button/button"
         )
       )
     );
-    configForm = await driver.wait(until.elementIsVisible(configForm));
-    await configForm.click();
+    desc = await driver.wait(until.elementIsVisible(desc));
+    desc.click();
+    // --> FINAL DA DESCRIÇÃO
 
-    // Definir informações
-    let nomeIngressoEndPrice = await driver.wait(
+    // --> Cadastro Local ou Definir Eventos Online
+
+    let localEvent = await driver.wait(
       until.elementLocated(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/input"
+          "/html/body/app-root/main/event-detail/div[1]/div[3]/div/div/div[3]/button"
         )
       )
     );
-    nomeIngressoEndPrice = await driver.wait(
-      until.elementIsVisible(nomeIngressoEndPrice)
-    );
-    await nomeIngressoEndPrice.sendKeys("Pista", Key.TAB, "2790");
+    localEvent = await driver.wait(until.elementIsVisible(localEvent));
+    localEvent.click();
 
-    let allowSaleOn = await driver.wait(
+    // Presencial
+    let presencial = await driver.wait(
       until.elementLocated(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[3]/go-accordion/div/div[2]/div/div[1]/label"
+          "/html/body/app-root/main/event-detail/app-event-place-type/div/div/div/go-selectable-group/div/div[1]/go-card-select/div/div/h3"
         )
       )
     );
-    allowSaleOn = await driver.wait(until.elementIsVisible(allowSaleOn));
-    await allowSaleOn.click();
-    await allowSaleOn
-      .findElement(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[3]/go-accordion/div/div[2]/div/div[2]/label"
-        )
-      )
-      .click();
+    presencial = await driver.wait(until.elementIsVisible(presencial));
+    presencial.click();
 
-    // await allowSaleOn.findElement(By.xpath(')).click()
+    // local
 
-    let option = await driver.wait(
-      until.elementLocated(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[1]/h3"
-        )
-      )
-    );
-    option = await driver.wait(until.elementIsVisible(option));
-    await option.click();
-
-    await option
-      .findElement(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[2]/div/div[1]/go-input/div/div/input"
-        )
-      )
-      .sendKeys(quantIngre);
-    await option
-      .findElement(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[2]/div/div[2]/go-input/div/div/input"
-        )
-      )
-      .sendKeys(quantPer, Key.TAB, ingDataInit, Key.TAB, ingDataEnd);
-
-    await option
-      .findElement(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[1]/div[5]/go-accordion/div/div[2]/div/div[5]/div/go-input/div/textarea"
-        )
-      )
-      .sendKeys(textComente);
-    await option
-      .findElement(
-        By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-edit-ticket/div/div/div[2]/go-form/form/div[2]/div/go-button/button"
-        )
-      )
-      .click();
-    i++;
-  }
-
-  // Adicionar descrição
-  let desc = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/div[1]/div[3]/div/div/div[2]/p/a"
-      )
-    )
-  );
-  desc = await driver.wait(until.elementIsVisible(desc));
-  desc.click();
-
-  desc = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-event-edit-description/div[1]/div/div[2]/div/go-input/div/textarea"
-      )
-    )
-  );
-  desc = await driver.wait(until.elementIsVisible(desc)).sendKeys(describ);
-  desc = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-event-edit-description/div[2]/div/div/div/go-button/button"
-      )
-    )
-  );
-  desc = await driver.wait(until.elementIsVisible(desc));
-  desc.click();
-  // --> FINAL DA DESCRIÇÃO
-
-  // --> Cadastro Local ou Definir Eventos Online
-
-  let localEvent = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/div[1]/div[3]/div/div/div[3]/button"
-      )
-    )
-  );
-  localEvent = await driver.wait(until.elementIsVisible(localEvent));
-  localEvent.click();
-
-  // Presencial
-  let presencial = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-event-place-type/div/div/div/go-selectable-group/div/div[1]/go-card-select/div/div/h3"
-      )
-    )
-  );
-  presencial = await driver.wait(until.elementIsVisible(presencial));
-  presencial.click();
-
-  // local
-  try {
     onde = getRandomLocal();
     let local = await driver.wait(
       until.elementLocated(
@@ -392,184 +395,152 @@ async function criarEvento(driver, qIngres, idEvent) {
     local = await driver.wait(
       until.elementLocated(
         By.xpath(
-          "/html/body/app-root/main/event-detail/app-event-add-place/div/div/div[2]/div/div[2]"
+          "/html/body/app-root/main/event-detail/app-event-add-place/div/div/div[2]/div/div[1]"
         )
       )
     );
     local = await driver.wait(until.elementIsVisible(local));
     await driver.sleep(1000);
     local.click();
-  } catch (error) {
-    if (error) {
-      local = await driver.wait(
-        until.elementLocated(
-          By.xpath(
-            "/html/body/app-root/main/event-detail/app-event-add-place-manual/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/input"
-          )
+
+    // --> FINAL DE DECLARAR ENVENTO
+
+    driver.sleep(2000);
+
+    // Publicar Evento
+
+    let publicar = await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/div[1]/div[3]/div/div/go-button[1]/button"
         )
-      );
-      local = await driver.wait(until.elementIsVisible(local));
-      local.sendKeys(
-        "Minha Casa",
-        Key.TAB,
-        "Rua Francisco Dantas de Medeiros",
-        Key.TAB,
-        "431",
-        "Canutos",
-        Key.TAB,
-        "Caicó"
-      );
-      local
-        .findElement(
-          By.xpath(
-            "/html/body/app-root/main/event-detail/app-event-add-place-manual/div/div/div[2]/go-form/form/div[1]/div[6]/go-input/div/div/select/option[21]"
-          )
-        )
-        .click();
-      local
-        .findElement(
-          By.xpath(
-            "/html/body/app-root/main/event-detail/app-event-add-place-manual/div/div/div[2]/go-form/form/div[2]/div/go-button/button"
-          )
-        )
-        .click();
-    }
-  }
-
-  // --> FINAL DE DECLARAR ENVENTO
-
-  driver.sleep(2000);
-
-  // Publicar Evento
-
-  let publicar = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/div[1]/div[3]/div/div/go-button[1]/button"
       )
-    )
-  );
-  publicar = await driver.wait(until.elementIsVisible(publicar));
-  await publicar.click();
-
-  driver.sleep(3000);
-
-  // Metodo de recebimento
-
-  let banco = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-receiving-sales-type/div/div/div/go-selectable-group/div/div[2]/go-card-select/div"
-      )
-    )
-  );
-  banco = await driver.wait(until.elementIsVisible(banco));
-  banco.click();
-  console.log("Metodo de rebimento informado");
-
-  driver.sleep(2000);
-
-  //--> Nome do Banco
-  let contaBancaria = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/select"
-      )
-    )
-  );
-  contaBancaria = await driver.wait(until.elementIsVisible(contaBancaria));
-  contaBancaria
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/select/option[2]"
-      )
-    )
-    .click();
-  console.log("Primeiro banco de aparecer");
-
-  contaBancaria
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[2]/go-input/div/div/select/option[1]"
-      )
-    )
-    .click();
-
-  await contaBancaria
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[3]/go-input/div/div/input"
-      )
-    )
-    .sendKeys(
-      1668,
-      Key.TAB,
-      529630,
-      Key.TAB,
-      "Nata Johnatan Danilo Relva Brito",
-      Key.TAB,
-      "11174235497"
     );
-  await contaBancaria
-    .findElement(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[2]/div/go-button/button"
+    publicar = await driver.wait(until.elementIsVisible(publicar));
+    await publicar.click();
+
+    driver.sleep(3000);
+
+    // Metodo de recebimento
+
+    let banco = await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-receiving-sales-type/div/div/div/go-selectable-group/div/div[2]/go-card-select/div"
+        )
       )
-    )
-    .click();
+    );
+    banco = await driver.wait(until.elementIsVisible(banco));
+    banco.click();
+    console.log("Metodo de rebimento informado");
 
-  let selecionarConta = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-event-payment-accounts/div[1]/div/div[2]/go-selectable-group/go-card-select[1]/div"
+    driver.sleep(2000);
+
+    //--> Nome do Banco
+    let contaBancaria = await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/select"
+        )
       )
-    )
-  );
-  selecionarConta = await driver.wait(until.elementIsVisible(selecionarConta));
-  await driver.sleep(1000);
-  await selecionarConta.click();
-  console.log("Conta Selecionada");
-
-  await driver.sleep(1000);
-
-  let nextConta = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/app-root/main/event-detail/app-event-payment-accounts/div[2]/div/div/div/go-button/button"
+    );
+    contaBancaria = await driver.wait(until.elementIsVisible(contaBancaria));
+    contaBancaria
+      .findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[1]/go-input/div/div/select/option[2]"
+        )
       )
-    )
-  );
-  nextConta = await driver.wait(until.elementIsVisible(nextConta));
-  nextConta.click();
+      .click();
+    console.log("Primeiro banco de aparecer");
 
-  let concluir = await driver.wait(
-    until.elementLocated(
-      By.xpath(
-        "/html/body/ngb-modal-window/div/div/app-modal-event-link/go-button/button"
+    contaBancaria
+      .findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[2]/go-input/div/div/select/option[1]"
+        )
       )
-    )
-  );
-  concluir = await driver.wait(until.elementIsVisible(concluir));
-  concluir.click();
+      .click();
 
-  driver.sleep(4000);
+    await contaBancaria
+      .findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[1]/div[3]/go-input/div/div/input"
+        )
+      )
+      .sendKeys(
+        1668,
+        Key.TAB,
+        529630,
+        Key.TAB,
+        "Nata Johnatan Danilo Relva Brito",
+        Key.TAB,
+        "11174235497"
+      );
+    await contaBancaria
+      .findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-bank-account/div/div/div[2]/go-form/form/div[2]/div/go-button/button"
+        )
+      )
+      .click();
 
-  let iconX = await driver.wait(
-    until.elementLocated(
-      By.xpath("/html/body/app-root/main/event-detail/div[4]/button/i")
-    )
-  );
-  iconX = await driver.wait(until.elementIsVisible(iconX));
-  iconX.click();
+    let selecionarConta = await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-event-payment-accounts/div[1]/div/div[2]/go-selectable-group/go-card-select[1]/div"
+        )
+      )
+    );
+    selecionarConta = await driver.wait(
+      until.elementIsVisible(selecionarConta)
+    );
+    await driver.sleep(1000);
+    await selecionarConta.click();
+    console.log("Conta Selecionada");
 
-  console.log("Evento Criado");
+    await driver.sleep(1000);
 
-  await driver.sleep(5000);
+    let nextConta = await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-event-payment-accounts/div[2]/div/div/div/go-button/button"
+        )
+      )
+    );
+    nextConta = await driver.wait(until.elementIsVisible(nextConta));
+    await driver.sleep(1000);
+    await nextConta.click();
 
-  //->> Parabén vc terminou de realizar o evento
+    let concluir = await driver.wait(
+      until.elementLocated(
+        By.xpath(
+          "/html/body/ngb-modal-window/div/div/app-modal-event-link/go-button/button"
+        )
+      )
+    );
+    concluir = await driver.wait(until.elementIsVisible(concluir));
+    concluir.click();
+
+    driver.sleep(4000);
+
+    let iconX = await driver.wait(
+      until.elementLocated(
+        By.xpath("/html/body/app-root/main/event-detail/div[4]/button/i")
+      )
+    );
+    iconX = await driver.wait(until.elementIsVisible(iconX));
+    iconX.click();
+
+    console.log("Evento Criado");
+
+    await driver.sleep(5000);
+
+    //->> Parabén vc terminou de realizar o evento
+  }
 }
 
-async function criarUser(name, email, cpf, senha, url, idEvent, quantEvent) {
+async function criarUser(name, email, cpf, senha, url) {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
@@ -585,11 +556,9 @@ async function criarUser(name, email, cpf, senha, url, idEvent, quantEvent) {
     await driver.findElement(By.id("email")).sendKeys(`${email}`);
     await driver.findElement(By.id("password")).sendKeys(`${senha}`, Key.ENTER);
 
-    let event = 0;
-    while (event < quantEvent) {
-      await criarEvento(driver, 1, idEvent);
-      event++;
-    }
+    await criarEvento(driver, 1, 1);
+
+    driver.quit;
 
     //driver.quit();
   } catch (error) {
@@ -620,17 +589,22 @@ async function loginUser(email, senha, url) {
 
 async function criarUserEvento() {
   const quantEvent = 10;
-  criarUser(
-    getRandomUserName() + " " + getRandomLocal(),
-    getRandomEmail(),
-    11174235497,
-    "hunterxhunter",
-    "159.203.184.165",
-    "4",
-    quantEvent
-  );
 }
 
-criarUserEvento();
+async function criarUsuariMaisEvento() {
+  let tamanho = 0;
+  while (tamanho < 5) {
+    tamanho++;
+    await criarUser(
+      getRandomUserName() + " " + getRandomLocal(),
+      getRandomEmail(),
+      11174235497,
+      "hunterxhunter",
+      "159.203.184.165"
+    );
+  }
+}
+
+criarUsuariMaisEvento();
 
 //console.log(getRandomEmail());
