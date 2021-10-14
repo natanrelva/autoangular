@@ -1,0 +1,15 @@
+{
+  "name": "selenium",
+  "version": "1.0.0",
+  "description": "Projeto de teste",
+  "main": "login-teste.js",
+  "dependencies": {
+    "selenium-webdriver": "^4.0.0-rc-2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
