@@ -21,7 +21,7 @@ async function criarEvento(driver, qIngres) {
 
   let i = 0;
 
-  while (i < 5) {
+  while (i < qIngres) {
     if (valid == true) {
       // ->> Criação de Ingresso
 
@@ -272,28 +272,26 @@ async function criarEvento(driver, qIngres) {
       //await configForm.click();
 
       // Selecionar formularios
-
-      await configForm
-        .findElement(
-          By.xpath(
-            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[3]/label"
-          )
+      // Telefone
+      await configForm.findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[3]/label"
         )
-        .click();
-      await configForm
-        .findElement(
-          By.xpath(
-            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[4]/label"
-          )
+      );
+      //.click();
+      // Cpf
+      await configForm.findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[4]/label"
         )
-        .click();
-      await configForm
-        .findElement(
-          By.xpath(
-            "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[5]/label"
-          )
+      );
+      //.click();
+      await configForm.findElement(
+        By.xpath(
+          "/html/body/app-root/main/event-detail/app-ticket-form/div/div/div/div[2]/div/div[5]/label"
         )
-        .click();
+      );
+      //.click();
 
       configForm = await driver.wait(
         until.elementLocated(
