@@ -4,9 +4,13 @@
   "description": "Projeto de teste",
   "main": "login-teste.js",
   "dependencies": {
+    "csv-reader": "^1.0.8",
+    "csvtojson": "^2.0.10",
     "selenium-webdriver": "^4.0.0-rc-2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "papaparse": "^5.3.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
